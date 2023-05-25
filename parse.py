@@ -48,15 +48,15 @@ def parse():
                     if key == 167:
                         output["instruments"].add(val)
 
-                    # question 2 - add Product to dict as set
+                    # question 2 - add Product to dict as list
                     if key == 462:
                         if not val in output["products"]:
-                            output["products"][val] = {instrument}
+                            output["products"][val] = [instrument]
                         else:
-                            output["products"][val].add(instrument)
+                            output["products"][val].append(instrument)
 
                     # question 3 - add to expirations dict as set
-                    if key == 6937 and val == "GE":
+                    if key == 6937 and val == "GE" and instrument == "FUT":
                         try:
                             legs = re.findall(f"{SOH}555=[0-9]*{SOH}", row)[0].split("=")[1].replace(SOH, "")
                             expiration = re.findall(f"{SOH}200=[0-9]*{SOH}", row)[0].split("=")[1].replace(SOH, "")
@@ -79,15 +79,16 @@ def parse():
 
     print(f"> total # of instruments (167) = {len(output['instruments'])} -> {output['instruments']}\n")
 
-    # question 2 - display all products and all instruments in each product
+    # question 2 - display all products and total # of all FUT instruments in each product
     for k, v in output["products"].items():
         try:
             product_name = tagmap["tags"]["462"]["val"][str(k)]
+            futures_list = [x for x in v if x == "FUT"]
         except (KeyError, ValueError) as error:
             print(str(error))
             sys.exit(1)
 
-        print(f"> product {k} ({product_name}) has {len(v)} instruments -> {v}")
+        print(f"> product {k} ({product_name}) has {len(futures_list)} Futures instruments")
 
 
     # question 3
