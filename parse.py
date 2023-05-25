@@ -55,16 +55,16 @@ def parse():
                         else:
                             output["products"][val].add(instrument)
 
-                    # question 3 - add to expirations dict as list
+                    # question 3 - add to expirations dict as set
                     if key == 6937 and val == "GE":
                         try:
                             legs = re.findall(f"{SOH}555=[0-9]*{SOH}", row)[0].split("=")[1].replace(SOH, "")
                             expiration = re.findall(f"{SOH}200=[0-9]*{SOH}", row)[0].split("=")[1].replace(SOH, "")
                             name = re.findall(f"{SOH}55=.*{SOH}", row)[0].split("=")[1].replace(SOH, "")
                             if not expiration in output["expirations"]:
-                                output["expirations"][expiration] = [f"{legs}, {name}"]
+                                output["expirations"][expiration] = {f"{legs}, {name}"}
                             else:
-                                output["expirations"][expiration].append(f"{legs}, {name}")
+                                output["expirations"][expiration].add(f"{legs}, {name}")
 
                         except IndexError:
                             pass
@@ -99,13 +99,10 @@ def parse():
     for exp in exp_list:
         print(f"\n{exp}:")
 
-        # remove duplicates
-        current_exp = list(set(output["expirations"][exp]))
-        for data in current_exp:
+        for data in output["expirations"][exp]:
             legs = data.split(",")[0]
             name = data.split(",")[1].strip()
             print(f"name: {name}  (legs: {legs})")
-
 
     print(f"\ntotal parse time: {timeit.default_timer() - start_time}")
 
