@@ -1,0 +1,149 @@
+{
+    "tags": {
+        "15": {
+            "desc": "Currency"
+        },
+        "22": {
+            "desc": "SecurityIDsrc"
+        },
+        "35": {
+            "desc": "MsgType"
+        },
+        "48": {
+            "desc": "Security"
+        },
+        "55": {
+            "desc": "InstrumentSymbol"
+        },
+        "167": {
+            "desc": "SecType"
+        },
+        "200": {
+            "desc": "MaturityMonthYear"
+        },
+        "207": {
+            "desc": "SecExchange"
+        },
+        "264": {
+            "desc": "MktDepth"
+        },
+        "461": {
+            "desc": "Cficode"
+        },
+        "462": {
+            "desc": "UnderlyingProduct",
+            "val": {
+                "2": "Commodity/Agriculture",
+                "4": "Currency",
+                "5": "Equity",
+                "6": "Government",
+                "10": "Mortgage",
+                "12": "Other",
+                "13": "Financing",
+                "14": "Interest Rate",
+                "15": "FX Cash",
+                "16": "Energy",
+                "17": "Metals"
+            }
+        },
+        "555": {
+            "desc": "NoLegs"
+        },
+        "562": {
+            "desc": "MinTradeVol"
+        },
+        "602": {
+            "desc": "LegSecurityID"
+        },
+        "603": {
+            "desc": "LegSecurityIDSource"
+        },
+        "623": {
+            "desc": "LegRatioQty"
+        },
+        "624": {
+            "desc": "LegSide"
+        },
+        "731": {
+            "desc": "SettlPriceType"
+        },
+        "762": {
+            "desc": "SecSubType"
+        },
+        "779": {
+            "desc": "LastUpdateTime"
+        },
+        "864": {
+            "desc": "NoEvents"
+        },
+        "865": {
+            "desc": "EventType"
+        },
+        "870": {
+            "desc": "NoInstAttrib"
+        },
+        "871": {
+            "desc": "InstAttribType"
+        },
+        "872": {
+            "desc": "InstAttribValue"
+        },
+        "969": {
+            "desc": "MinPriceInstrument"
+        },
+        "980": {
+            "desc": "SecurityUpdateAction"
+        },
+        "996": {
+            "desc": "UnitOfMeasure"
+        },
+        "1022": {
+            "desc": "MDFeedType"
+        },
+        "1093": {
+            "desc": "LotType"
+        },
+        "1140": {
+            "desc": "MaxTradeVol"
+        },
+        "1141": {
+            "desc": "NoMDFeedTypes"
+        },
+        "1142": {
+            "desc": "MatchAlgo"
+        },
+        "1145": {
+            "desc": "EventTime"
+        },
+        "1151": {
+            "desc": "SecGroup"
+        },
+        "1180": {
+            "desc": "AppID"
+        },
+        "1231": {
+            "desc": "MinLotSize"
+        },
+        "1234": {
+            "desc": "NoLotTypeRules"
+        },
+        "1300": {
+            "desc": "MktSegmentID"
+        },
+        "5799": {
+            "desc": "MatchEventIndicator"
+        },
+        "6350": {
+            "desc": "TickRule"
+        },
+        "6937": {
+            "desc": "AssetCode"
+        },
+        "9779": {
+            "desc": "UserDefinedInstrument"
+        },
+        "9787": {
+            "desc": "DisplayFactor"
+        }
+    }
+}
