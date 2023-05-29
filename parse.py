@@ -29,7 +29,10 @@ def parse():
             row = row.replace("\n", "")
 
             # get Instrument value
-            instrument = re.findall(f"167=[A-Z]*{SOH}", row)[0].split("=")[1].replace(SOH, "")
+            try:
+                instrument = re.search(f"{SOH}167=(.*?){SOH}", row).group(1)
+            except (IndexError, AttributeError):
+                continue
 
             # convert each row in .dat into list element
             rowlist = row.split(SOH)
@@ -55,19 +58,26 @@ def parse():
                         else:
                             output["products"][val].append(instrument)
 
-                    # question 3 - add to expirations dict as set
+                    # question 3 - add to expirations dict as list
                     if key == 6937 and val == "GE" and instrument == "FUT":
                         try:
-                            legs = re.findall(f"{SOH}555=[0-9]*{SOH}", row)[0].split("=")[1].replace(SOH, "")
-                            expiration = re.findall(f"{SOH}200=[0-9]*{SOH}", row)[0].split("=")[1].replace(SOH, "")
-                            name = re.findall(f"{SOH}55=.*{SOH}", row)[0].split("=")[1].replace(SOH, "")
-                            if not expiration in output["expirations"]:
-                                output["expirations"][expiration] = {f"{legs}, {name}"}
-                            else:
-                                output["expirations"][expiration].add(f"{legs}, {name}")
+                            legs = re.search(f"{SOH}555=(\d+){SOH}", row).group(1)
+                        except (IndexError, AttributeError):
+                            legs = None
 
-                        except IndexError:
-                            pass
+                        if not legs:
+                            try:
+                                expiration = re.search(f"{SOH}200=(\d+){SOH}", row).group(1)
+                                name = re.search(f"{SOH}55=(.*?){SOH}", row).group(1)
+                            except (IndexError, AttributeError):
+                                continue
+
+                            # create dict Expiration key if doesnt exist
+                            if not expiration in output["expirations"]:
+                                output["expirations"][expiration] = []
+                                output["expirations"][expiration].append(name)
+                            else:
+                                output["expirations"][expiration].append(name)
 
                 except (KeyError, ValueError, IndexError, TypeError, AttributeError) as error:
                     print(f"error on tag {tag} - {error}")
@@ -77,9 +87,11 @@ def parse():
 
     print(f"total lines processed: {count}\n")
 
+    print("How many instruments of each security type (tag 167) exist?\n")
     print(f"> total # of instruments (167) = {len(output['instruments'])} -> {output['instruments']}\n")
 
-    # question 2 - display all products and total # of all FUT instruments in each product
+
+    print("\nHow many futures (tag 167) instruments exist in each product complex (tag 462)?\n")
     for k, v in output["products"].items():
         try:
             product_name = tagmap["tags"]["462"]["val"][str(k)]
@@ -90,20 +102,13 @@ def parse():
 
         print(f"> product {k} ({product_name}) has {len(futures_list)} Futures instruments")
 
+    # sort expiration dict by date, get 4 earliest, deduplicate
+    exp_list = list(set(sorted(output["expirations"], key=output["expirations"].get, reverse=True)[:4]))
 
-    # question 3
-    print("\ntop 4 earliest expirations:")
-
-    # sort expiration dict by date, get 4 earliest
-    exp_list = sorted(output["expirations"], key=output["expirations"].get, reverse=True)[:4]
-
-    for exp in exp_list:
-        print(f"\n{exp}:")
-
-        for data in output["expirations"][exp]:
-            legs = data.split(",")[0]
-            name = data.split(",")[1].strip()
-            print(f"name: {name}  (legs: {legs})")
+    print("\nWhat are the names (tag 55) of the earliest four expirations (tag 200) for the futures (tag 167) instruments with asset (tag 6937) 'GE' and have zero legs (tag 555)?\n")
+    for exp in output["expirations"]:
+        for exp in exp_list:
+            print(f"> name: {output['expirations'][exp]} - expiration: {exp}")
 
     print(f"\ntotal parse time: {timeit.default_timer() - start_time}")
 

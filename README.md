@@ -16,10 +16,15 @@ run with python3
 output
 
 ```
-mreider@mrxmini ~/d/secdef> ./parse.py
+mreider@mrxmini ~/d/secdef (master)> ./parse.py
 total lines processed: 677857
 
-> total # of instruments (167) = 5 -> {'MLEG', 'FXSPOT', 'IRS', 'OOF', 'FUT'}
+How many instruments of each security type (tag 167) exist?
+
+> total # of instruments (167) = 5 -> {'FUT', 'MLEG', 'FXSPOT', 'IRS', 'OOF'}
+
+
+How many futures (tag 167) instruments exist in each product complex (tag 462)?
 
 > product 5 (Equity) has 2384 Futures instruments
 > product 16 (Energy) has 115639 Futures instruments
@@ -29,8 +34,11 @@ total lines processed: 677857
 > product 17 (Metals) has 9864 Futures instruments
 > product 4 (Currency) has 1148 Futures instruments
 
-top 4 earliest expirations:
+What are the names (tag 55) of the earliest four expirations (tag 200) for the futures (tag 167) instruments with asset (tag 6937) 'GE' and have zero legs (tag 555)?
 
-total parse time: 9.614769841078669
+> name: ['GEM3'] - expiration: 202306
+
+total parse time: 9.28242016211152
+
 
 ```
